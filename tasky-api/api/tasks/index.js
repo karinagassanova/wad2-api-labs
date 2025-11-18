@@ -2,6 +2,7 @@ import '../../db';
 
 import express from 'express';
 import Task from './taskModel';
+import asyncHandler from 'express-async-handler';
 
 const router = express.Router(); // eslint-disable-line
 
@@ -12,10 +13,10 @@ router.get('/', async (req, res) => {
 });
 
 // create a task
-router.post('/', async (req, res) => {
+router.post('/', asyncHandler(async (req, res) => {
     const task = await Task(req.body).save();
     res.status(201).json(task);
-});
+}));
 
 // Update Task
 router.put('/:id', async (req, res) => {
