@@ -1,4 +1,5 @@
-import '../../db'; 
+import '../../db'; // This is correct now
+
 
 import express from 'express';
 import Task from './taskModel';
