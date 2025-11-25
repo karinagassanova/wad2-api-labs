@@ -29,9 +29,29 @@ router.post('/', asyncHandler(async (req, res) => {
 }));
 
 async function registerUser(req, res) {
-    // Add input validation logic here
-    await User.create(req.body);
-    res.status(201).json({ success: true, msg: 'User successfully created.' });
+    const { username, password } = req.body;
+
+    // Password validation regex
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({
+            success: false,
+            msg: 'Password must be at least 8 characters long, contain at least one letter, one digit, and one special character.'
+        });
+    }
+
+    try {
+        // Create user
+        await User.create({ username, password });
+        res.status(201).json({ success: true, msg: 'User successfully created.' });
+    } catch (err) {
+        console.error('Error creating user:', err);
+        if (err.code === 11000) { // duplicate username
+            return res.status(400).json({ success: false, msg: 'Username already exists.' });
+        }
+        res.status(500).json({ success: false, msg: 'Internal server error.' });
+    }
 }
 
 async function authenticateUser(req, res) {
