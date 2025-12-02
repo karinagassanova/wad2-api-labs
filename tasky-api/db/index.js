@@ -1,7 +1,10 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-
 dotenv.config();
+console.log("MONGO_DB =", process.env.MONGO_DB);
+
+
+
 
 // Connect to database
 mongoose.connect(process.env.MONGO_DB);

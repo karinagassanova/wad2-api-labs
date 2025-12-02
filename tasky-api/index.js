@@ -5,7 +5,7 @@ import authenticate from './authenticate';
 import usersRouter from './api/users';
 // other imports
 import cors from 'cors';
-import './db'; 
+import './db/index.js';
 dotenv.config();
 const errHandler = (err, req, res, next) => {
   /* if the error in development then send stack trace to display whole error,
